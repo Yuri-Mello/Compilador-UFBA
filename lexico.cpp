@@ -103,10 +103,48 @@ int main() {
 	// mapa das palavras reservadas
 	// (incompleto pq sou preguiçoso)
 	map<string,string> reservadas;
-	reservadas["ACENDA LAMPADA"] = "ACENDA LAPADA"; reservadas["APAGUE LAMPADA"] = "APAGUE LAMPADA";
-	reservadas["AGUARDE ATE"] = "AGUARDE ATE"; reservadas["COMO"] = "COMO";
-	reservadas["DEFINAINSTRUCAO"] = "DEFINAINSTRUCAO"; reservadas["DIREITA"] = "DIREITA";
-	reservadas["DIREITA ROBO BLOQUEADA"] = "DIREITA ROBO BLOQUEADA"; 
+	reservadas["ACENDA LAMPADA "]="ACENDA LAMPADA ";
+	reservadas["APAGUE LAMPADA"]="APAGUE LAMPADA";
+	reservadas["AGUARDE ATE"]="AGUARDE ATE";
+	reservadas["COMO"]="COMO";
+	reservadas["DEFINAINSTRUCAO"]="DEFINAINSTRUCAO";
+	reservadas["DIREITA"]="DIREITA";
+	reservadas["DIREITA ROBO BLOQUEADA"]="DIREITA ROBO BLOQUEADA";
+	reservadas["ENQUANTO"]="ENQUANTO";
+	reservadas["ENTAO"]="ENTAO";
+	reservadas["ESQUERDA"]="ESQUERDA";
+	reservadas["ESQUERDA ROBO BLOQUEADA"]="ESQUERDA ROBO BLOQUEADA";
+	reservadas[" EXECUCAOINICIO"]=" EXECUCAOINICIO";
+	reservadas["FACA"]="FACA";
+	reservadas["FIM"]="FIM";
+	reservadas["FIMEXECUCAO"]="FIMEXECUCAO";
+	reservadas["FIMPARA"]="FIMPARA";
+	reservadas["FIMPROGRAMA"]="FIMPROGRAMA";
+	reservadas["FIMREPITA"]="FIMREPITA";
+	reservadas["FIMSE"]="FIMSE";
+	reservadas["FIMSENAO"]="FIMSENAO";
+	reservadas["FINALIZE"]="FINALIZE";
+	reservadas["FRENTE ROBO BLOQUEADA"]="FRENTE ROBO BLOQUEADA";
+	reservadas["INICIO"]="INICIO";
+	reservadas["LAMPADA ACESA A DIREITA"]="LAMPADA ACESA A DIREITA";
+	reservadas["LAMPADA ACESA A ESQUERDA"]="LAMPADA ACESA A ESQUERDA";
+	reservadas["LAMPADA ACESA A FRENTE"]="LAMPADA ACESA A FRENTE";
+	reservadas["LAMPADA APAGADA A DIREITA"]="LAMPADA APAGADA A DIREITA";
+	reservadas["LAMPADA APAGADA A ESQUERDA"]="LAMPADA APAGADA A ESQUERDA";
+	reservadas["LAMPADA APAGADA A FRENTE"]="LAMPADA APAGADA A FRENTE";
+	reservadas["MOVA"]="MOVA";
+	reservadas["PARE"]="PARE";
+	reservadas["PASSOS"]="PASSOS";
+	reservadas["PROGRAMAINICIO"]="PROGRAMAINICIO";
+	reservadas["REPITA"]="REPITA";
+	reservadas["ROBO MOVIMENTADO"]="ROBO MOVIMENTADO";
+	reservadas["ROBO OCUPADO"]="ROBO OCUPADO";
+	reservadas["ROBO PARADO"]="ROBO PARADO";
+	reservadas["ROBO PRONTO"]="ROBO PRONTO";
+	reservadas["SE"]="SE";
+	reservadas["SENAO"]="SENAO";
+	reservadas["VEZES"]="VEZES";
+	reservadas["VIRE PARA"]="VIRE PARA";
 
 	vector<token> teste = analisadorLexico(buffer,reservadas);
 
