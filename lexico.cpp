@@ -18,6 +18,7 @@ VEZES, VIRE PARA.
 #include <string>
 #include <vector>
 #include <map>
+#include <cctype>
 
 using namespace std;
 
@@ -58,27 +59,32 @@ vector<token> analisadorLexico(char buffer[], map<string,string> reservadas) {
 					linha++;
 					i++;
 				}
-				else if (buffer[i] >= 48 && buffer[i] <= 57) {
+				else if (buffer[i] >= '0' && buffer[i] <= '9') {
 					texto = "";
 					estado = 1;
 				}
-				else if ((buffer[i] >= 65 && buffer[i] <= 90) || 
-						 (buffer[i] >= 97 && buffer[i] <= 122)) {
+				else if ((buffer[i] >= 'A' && buffer[i] <= 'Z') || 
+						 (buffer[i] >= 'a' && buffer[i] <= 'z')) {
+					texto = "";
 					estado = 2;
 				}
-				else if (buffer[i] == '\0')
+				else if (buffer[i] == '\0') {
 					return tokens;
+				}
+				else {
+					estado = -1;
+				}
 
 				break;
 			// caso NUMERO
 			case 1:
-				if (buffer[i] >= 48 && buffer[i] <= 57) {
+				if (buffer[i] >= '0' && buffer[i] <= '9') {
 					texto += buffer[i];
 					coluna++;
 					i++;
 				}
 				else if (buffer[i] == '\t' || buffer[i] == ' ' || buffer[i] == '\n' || buffer[i] == '\0') {
-					tokens.push_back(novoToken("numero",texto));
+					tokens.push_back(novoToken("NUM",texto));
 
 					estado = 0;
 				}
@@ -87,9 +93,25 @@ vector<token> analisadorLexico(char buffer[], map<string,string> reservadas) {
 				}
 
 				break;
-			// caso de sucesso
-			case 8:
-				return tokens;
+			case 2:
+				if ((buffer[i] >= 'A' && buffer[i] <= 'Z') ||
+					(buffer[i] >= 'a' && buffer[i] <= 'z') ||
+					(buffer[i] >= '0' && buffer[i] <= '9')) {
+                    texto += toupper(buffer[i]);
+                    coluna++;
+                    i++;
+                }            
+                else if (buffer[i] == '\t' || buffer[i] == ' ' || buffer[i] == '\n' || buffer[i] == '\0') {
+                    if(reservadas.count(texto)) tokens.push_back(novoToken(texto,texto));
+                    else tokens.push_back(novoToken("ID",texto));
+					
+                    estado = 0;
+                }
+                else {
+                    estado = -1;
+                }
+
+                break;
 		}
 	}
 
@@ -98,12 +120,16 @@ vector<token> analisadorLexico(char buffer[], map<string,string> reservadas) {
 
 
 int main() {
-	char buffer[8] = {'1','2','3',' ','3','\n','2','3'};
+	// char buffer[17] = {'t','e','s','t','e',' ','a','c','e','n','d','a',' ','1','1',' ','\0'};
+	// string buffer = "teste acenda 11";
+
+	char buffer[512001];
+	int tam = fread(buffer,sizeof(char),512000,stdin);
+	buffer[tam] = '\0';
 
 	// mapa das palavras reservadas
-	// (incompleto pq sou preguiçoso)
 	map<string,string> reservadas;
-	reservadas["ACENDA"]="ACENDA";
+		reservadas["ACENDA"]="ACENDA";
 		reservadas["LAMPADA"]="LAMPADA";
 		reservadas["APAGUE"]="APAGUE";
 		reservadas["LAMPADA"]="LAMPADA";
@@ -134,6 +160,7 @@ int main() {
 		reservadas["APAGADA"]="APAGADA";
 		reservadas["MOVA"]="MOVA";
 		reservadas["PARE"]="PARE";
+		reservadas["PASSO"]="PASSO";
 		reservadas["PASSOS"]="PASSOS";
 		reservadas["PROGRAMAINICIO"]="PROGRAMAINICIO";
 		reservadas["REPITA"]="REPITA";
@@ -143,15 +170,16 @@ int main() {
 		reservadas["PRONTO"]="PRONTO";
 		reservadas["SE"]="SE";
 		reservadas["SENAO"]="SENAO";
+		reservadas["VEZ"]="VEZ";
 		reservadas["VEZES"]="VEZES";
 		reservadas["VIRE"]="VIRE";
 		reservadas["PARA"]="PARA";
 
-	vector<token> teste = analisadorLexico(buffer,reservadas);
+	vector<token> tokens = analisadorLexico(buffer,reservadas);
 
-	if (!teste.empty())
-		for (int i = 0; i < teste.size(); i++)
-		cout << teste[i].texto << " " << teste[i].tipo << endl;
+	if (!tokens.empty())
+		for (int i = 0; i < tokens.size(); i++)
+		cout << tokens[i].texto << " " << tokens[i].tipo << endl;
 	else
 		cout << "empty" << endl;
 
