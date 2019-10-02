@@ -1,0 +1,9 @@
+#Teste 3 - erro
+
+Se um erro foi encontrado, o analisador léxico imprime a linha e a coluna onde o erro foi encontrado.
+
+Exemplo de palavras que resultam em erros (acima dos erros já no texto até agora, como palavras com acento e uso de pontuação):
+	12g3
+	blabla#blabla
+	pa%la&vra
+	_wow_

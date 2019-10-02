@@ -1,0 +1,9 @@
+#Teste 4 - erro
+
+A linha e a coluna impressas no caso de erro será equivalente à linha e a coluna no final da palavra com erro.
+
+Mais exemplos:
+	0a
+	500##
+	R$3.00
+	00010101b

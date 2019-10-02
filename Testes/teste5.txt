@@ -1,0 +1,12 @@
+#Teste 5 - erro
+
+Como pela especificação, comentários só são válidos se eles estiverem no começo de uma linha.
+#Comentário válido
+palavra #Comentário inválido
+
+Outros testes:
+	1teste1
+		2teste2
+			3teste3
+				4teste4
+					5teste5

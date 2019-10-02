@@ -1,0 +1,15 @@
+#Teste 2 - correto
+
+O analisador lexico aceita qualquer numero e qualquer string que nao comeca por numeros como por exemplo
+Palavra1
+PaLaVrA2
+30000000
+PALAVRA4
+
+O analisador nao aceita palavras com acento e nem carateres como
+Parenteses
+Ponto
+Virgula
+Ponto e virgula
+Dois pontos
+etc
