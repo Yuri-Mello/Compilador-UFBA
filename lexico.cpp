@@ -15,12 +15,16 @@ SE, SENAO,
 VEZES, VIRE PARA.
 */
 #include <iostream>
+#include <fstream>
+#include <stdio.h>
 #include <string>
 #include <vector>
 #include <map>
 #include <cctype>
 
 using namespace std;
+
+bool erro = false;
 
 typedef struct token_t {
 	string tipo;
@@ -39,6 +43,7 @@ void erroLexico(int linha, int coluna) {
 }
 
 vector<token> analisadorLexico(char buffer[], map<string,string> reservadas) {
+	bool newLine = true; // checa se a linha é nova para comentários
 	vector<token> tokens;
 	int linha = 1, coluna = 1, estado = 0, i = 0;
 	string texto = "";
@@ -46,30 +51,56 @@ vector<token> analisadorLexico(char buffer[], map<string,string> reservadas) {
 		switch(estado) {
 			// caso de erro
 			case -1:
+				erro = true;
+				while (buffer[i] != '\n' && buffer[i] != '\t' && buffer[i] != '\0' && buffer[i] != ' ') {
+					i++;
+					coluna++;
+					if (buffer[i] < 0)
+						i++;
+				}
 				erroLexico(linha,coluna);
-				return {};
+				estado = 0;
+
+				break;
 			// caso base
 			case 0: 
-				if (buffer[i] == '\t' || buffer[i] == ' ') {
+				if (buffer[i] == ' ') {
 					coluna++;
 					i++;
 				}
+				else if (buffer[i] == '\t') {
+					coluna += 4;
+					i++;
+				}
 				else if (buffer[i] == '\n') {
+					newLine = true;
 					coluna = 1;
 					linha++;
 					i++;
 				}
 				else if (buffer[i] >= '0' && buffer[i] <= '9') {
+					newLine = false;
 					texto = "";
 					estado = 1;
 				}
 				else if ((buffer[i] >= 'A' && buffer[i] <= 'Z') || 
 						 (buffer[i] >= 'a' && buffer[i] <= 'z')) {
+					newLine = false;
 					texto = "";
 					estado = 2;
 				}
 				else if (buffer[i] == '\0') {
-					return tokens;
+					if (erro == false){
+						return tokens;
+					}
+					else {
+						return {};
+					}
+				}
+				else if (buffer[i] == '#' && newLine == true) {
+					while(buffer[i] != '\n' && buffer[i] != '\0') {
+						i++;
+					}
 				}
 				else {
 					estado = -1;
@@ -120,11 +151,26 @@ vector<token> analisadorLexico(char buffer[], map<string,string> reservadas) {
 
 
 int main() {
-	// char buffer[17] = {'t','e','s','t','e',' ','a','c','e','n','d','a',' ','1','1',' ','\0'};
-	// string buffer = "teste acenda 11";
+	FILE *program;
+	char buffer[512000]; // tamanho máximo do programa = 512kb
+	char filename[512]; // tamanho máximo do filename = 512b
 
-	char buffer[512001];
-	int tam = fread(buffer,sizeof(char),512000,stdin);
+	cout << "Digite o nome do arquivo a ser lido: ";
+	cin >> filename;
+
+	fstream teste;
+	teste.open(filename);
+	if (teste.fail()) {
+		cout << "Erro: arquivo não encontrado" << endl;
+		return -1;
+	}
+
+	program = fopen(filename,"r");
+	if (fopen == NULL) {
+		cout << "Erro: não foi possível ler o arquivo." << endl;
+		return -1;
+	}
+	int tam = fread(buffer,sizeof(char),511999,program);
 	buffer[tam] = '\0';
 
 	// mapa das palavras reservadas
@@ -177,11 +223,14 @@ int main() {
 
 	vector<token> tokens = analisadorLexico(buffer,reservadas);
 
-	if (!tokens.empty())
-		for (int i = 0; i < tokens.size(); i++)
-		cout << tokens[i].texto << " " << tokens[i].tipo << endl;
-	else
-		cout << "empty" << endl;
+	if (!tokens.empty()) {
+		for (int i = 0; i < tokens.size(); i++) {
+			cout << tokens[i].texto << " " << tokens[i].tipo << endl;
+		}
+	}
+	else if (erro == false) {
+		cout << "Erro: arquivo não contém código." << endl;
+	}
 
     return 0;
 }
