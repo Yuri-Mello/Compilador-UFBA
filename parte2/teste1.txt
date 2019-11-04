@@ -4,8 +4,21 @@ PROGRAMAINICIO
 	DEFINAINSTRUCAO Trilha COMO
 	INICIO
 		Mova 3 Passos
+		Aguarde Ate Robo Pronto
 		Aguarde Ate Lampada Apagada A Frente
 		Vire Para ESQUERDA
+		Apague Lampada
+		Vire Para DIREITA
+		Mova 1 Passo
+		Aguarde Ate Robo Pronto
+	FIM
+	DEFINAINSTRUCAO Trilha2 COMO
+	INICIO
+		Mova 3 Passos
+		Aguarde Ate Robo Pronto
+		Vire Para ESQUERDA
+		Pare
+		Vire Para DIREITA
 		Apague Lampada
 		Vire Para DIREITA
 		Mova 1 Passo
