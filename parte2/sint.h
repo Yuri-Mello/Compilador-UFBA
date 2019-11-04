@@ -1,7 +1,55 @@
+/*
+LINGUAGEM UTILIZADA:
+
+PROGRAMA -> programainicio D execucaoinicio COMANDO fimexecucao fimprograma
+D -> DECLARACAO D
+| *vazio*
+DECLARACAO -> definainstrucao identificador como COMANDO
+COMANDO -> BLOCO
+| ITERACAO
+| LACO
+| CONDICIONAL
+| INSTRUCAO
+BLOCO -> inicio C fim
+C -> COMANDO C
+| *vazio*
+ITERACAO -> repita numero vezes COMANDO fimrepita
+LACO -> enquanto CONDICAO faca COMANDO fimpara
+CONDICIONAL -> se CONDICAO entao COMANDO fimse ELSE
+ELSE -> senao COMANDO fimsenao
+| *vazio*
+INSTRUCAO -> mova numero PASSOS
+PASSOS -> passo
+| passos
+| *vazio*
+INSTRUCAO -> vire para SENTIDO
+| identificador
+| pare
+| finalize
+| apague lampada
+| acenda lampada
+| aguarde ate CONDICAO
+CONDICAO -> frente robo bloqueada
+| direita robo bloqueada
+| esquerda robo bloqueada
+| robo STATUS
+| lampada ACAP
+STATUS -> pronto
+| ocupado
+| parado
+| movimentando
+ACAP -> acesa a DIRECAO
+| apagada a DIRECAO
+DIRECAO -> esquerda
+| direita
+| frente
+SENTIDO -> esquerda
+| direita
+
+*/
 #include "lexico.h"
 #include <algorithm>
 #include <utility>
-#include <string>
 #include <stack>
 
 using namespace std;
@@ -152,18 +200,26 @@ bool analisadorSintatico(vector<token> tokens) {
 	tabelaSint[{"PASSOS-","EXECUCAOINICIO"}] = "&";
 
 	// -CONDICAO-
-	tabelaSint[{"CONDICAO","LAMPADA_ACESA_A_DIREITA"}] = "LAMPADA_ACESA_A_DIREITA";
-	tabelaSint[{"CONDICAO","LAMPADA_APAGADA_A_DIREITA"}] = "LAMPADA_APAGADA_A_DIREITA";
-	tabelaSint[{"CONDICAO","LAMPADA_ACESA_A_ESQUERDA"}] = "LAMPADA_ACESA_A_ESQUERDA";
-	tabelaSint[{"CONDICAO","LAMPADA_APAGADA_A_ESQUERDA"}] = "LAMPADA_APAGADA_A_ESQUERDA";
-	tabelaSint[{"CONDICAO","LAMPADA_ACESA_A_FRENTE"}] = "LAMPADA_ACESA_A_FRENTE";
-	tabelaSint[{"CONDICAO","LAMPADA_APAGADA_A_FRENTE"}] = "LAMPADA_APAGADA_A_FRENTEO";
-	tabelaSint[{"CONDICAO","DIREITA_ROBO_BLOQUEADA"}] = "DIREITA_ROBO_BLOQUEADA";
-	tabelaSint[{"CONDICAO","ESQUERDA_ROBO_BLOQUEADA"}] = "ESQUERDA_ROBO_BLOQUEADA";
-	tabelaSint[{"CONDICAO","FRENTE_ROBO_BLOQUEADA"}] = "FRENTE_ROBO_BLOQUEADA";
-	tabelaSint[{"CONDICAO","ROBO_MOVIMENTANDO"}] = "ROBO_MOVIMENTANDO";
-	tabelaSint[{"CONDICAO","ROBO_PARADO"}] = "ROBO_PARADO";
-	tabelaSint[{"CONDICAO","ROBO_PRONTO"}] = "ROBO_PRONTO";
+	tabelaSint[{"CONDICAO","DIREITA"}] = "DIREITA ROBO BLOQUEADA";
+	tabelaSint[{"CONDICAO","ESQUERDA"}] = "ESQUERDA ROBO BLOQUEADA";
+	tabelaSint[{"CONDICAO","FRENTE"}] = "FRENTE ROBO BLOQUEADA";
+	tabelaSint[{"CONDICAO","LAMPADA"}] = "LAMPADA ACAP";
+	tabelaSint[{"CONDICAO","ROBO"}] = "ROBO STATUS";
+
+	// -STATUS-
+	tabelaSint[{"STATUS","MOVIMENTANDO"}] = "MOVIMENTANDO";
+	tabelaSint[{"STATUS","PARADO"}] = "PARADO";
+	tabelaSint[{"STATUS","OCUPADO"}] = "OCUPADO";
+	tabelaSint[{"STATUS","PRONTO"}] = "PRONTO";
+
+	// -ACAP- (ACesa ou APagada)
+	tabelaSint[{"ACAP","APAGADA"}] = "APAGADA A DIRECAO";
+	tabelaSint[{"ACAP","ACESA"}] = "ACESA A DIRECAO";
+
+	// -DIRECAO- (sentido + "frente")
+	tabelaSint[{"DIRECAO","DIREITA"}] = "DIREITA";
+	tabelaSint[{"DIRECAO","ESQUERDA"}] = "ESQUERDA";
+	tabelaSint[{"DIRECAO","FRENTE"}] = "FRENTE";
 
 	// -SENTIDO-
 	tabelaSint[{"SENTIDO","DIREITA"}] = "DIREITA";
@@ -184,6 +240,9 @@ bool analisadorSintatico(vector<token> tokens) {
 		simbolos["INSTRUCAO"] = "INSTRUCAO";
 		simbolos["PASSOS-"] = "PASSOS-";
 		simbolos["CONDICAO"] = "CODICAO";
+		simbolos["STATUS"] = "STATUS";
+		simbolos["ACAP"] = "ACAP";
+		simbolos["DIRECAO"] = "DIRECAO";
 		simbolos["SENTIDO"] = "SENTIDO";
 
 	// pilha
@@ -197,6 +256,9 @@ bool analisadorSintatico(vector<token> tokens) {
  	string topPilha = pilha.top(); // topo da pila
 	do {
 		topPilha = pilha.top();
+		if (topPilha == "CONDICAO") {
+
+		}
 		if (!simbolos.count(topPilha) || topPilha == "$") { // topo da pilha é um terminal ou $
 			if (topPilha == tokens[pos].tipo) {
 				pilha.pop();
