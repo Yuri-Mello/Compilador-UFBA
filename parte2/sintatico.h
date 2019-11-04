@@ -54,6 +54,8 @@ SENTIDO -> esquerda
 
 using namespace std;
 
+bool erroSint = false;
+
 stack<string> addInstToStack(stack<string> pilha, string inst) {
 	if (inst != "&") {
 		int tam = inst.length();
@@ -75,8 +77,8 @@ stack<string> addInstToStack(stack<string> pilha, string inst) {
 	return pilha;
 }
 
-void erroSintatico(int linha, int coluna, string teste) {
-	cout << "ERRO: erro sintático na linha " << linha << ", coluna " << coluna << " (" << teste << ").\n";
+void erroSintatico(int linha, int coluna) {
+	cout << "ERRO: erro sintático na linha " << linha << ", coluna " << coluna << ".\n";
 }
 
 bool analisadorSintatico(vector<token> tokens) {
@@ -263,7 +265,7 @@ bool analisadorSintatico(vector<token> tokens) {
 				pos++;
 			}
 			else {
-				erroSintatico(tokens[pos].linha,tokens[pos].coluna,topPilha);
+				erroSintatico(tokens[pos].linha,tokens[pos].coluna);
 				return false;
 			}
 		}
@@ -274,7 +276,7 @@ bool analisadorSintatico(vector<token> tokens) {
 				pilha = addInstToStack(pilha,inst);
 			}
 			else {
-				erroSintatico(tokens[pos].linha,tokens[pos].coluna,topPilha);
+				erroSintatico(tokens[pos].linha,tokens[pos].coluna);
 				return false;
 			}
 		}
