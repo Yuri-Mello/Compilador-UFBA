@@ -16,10 +16,11 @@ int main() {
 
 	cout << "Digite o nome do arquivo a ser lido: ";
 	cin >> filename;
+	cout << endl;
 
-	fstream teste;
-	teste.open(filename);
-	if (teste.fail()) {
+	fstream arquivo;
+	arquivo.open(filename);
+	if (arquivo.fail()) {
 		cout << "Erro: arquivo não encontrado" << endl;
 		return -1;
 	}
@@ -79,17 +80,31 @@ int main() {
 		reservadas["VEZES"]="VEZES";
 		reservadas["VIRE"]="VIRE";
 		reservadas["PARA"]="PARA";
-
+	cout << "Executando análise léxica... ";
 	vector<token> tokens = analisadorLexico(buffer,reservadas);
 
-	if (!tokens.empty()) {
-		for (int i = 0; i < tokens.size(); i++) {
-			cout << tokens[i].texto << " " << tokens[i].tipo << endl;
-		}
-	}
-	else if (erro == false) {
+	// if (!tokens.empty()) {
+	// 	for (int i = 0; i < tokens.size(); i++) {
+	// 		cout << tokens[i].texto << " " << tokens[i].tipo << endl;
+	// 	}
+	// }
+	// else if (erroLex == false) {
+	// 	cout << "Erro: arquivo não contém código." << endl;
+	// }
+	// cout << endl;
+	if (!tokens.empty())
+		cout << "OK." << endl;
+	else if (erroLex == false)
 		cout << "Erro: arquivo não contém código." << endl;
+
+	bool semErroSint = false;
+	if (!tokens.empty()) {
+		cout << "Executando análise sintática... ";
+		semErroSint = analisadorSintatico(tokens);
 	}
+
+	if (semErroSint)
+		cout << "OK." << endl;
 
     return 0;
 }
