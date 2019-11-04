@@ -1,11 +1,7 @@
-// #include <iostream>
-// #include <fstream>
-// #include <stdio.h>
-// #include <string>
-// #include <vector>
-// #include <map>
-// #include <cctype>
-#include "sint.h"
+#include "semantico.h"
+#include <fstream>
+#include <stdio.h>
+#include <cctype>
 
 using namespace std;
 
@@ -16,95 +12,52 @@ int main() {
 
 	cout << "Digite o nome do arquivo a ser lido: ";
 	cin >> filename;
-	cout << endl;
 
 	fstream arquivo;
 	arquivo.open(filename);
 	if (arquivo.fail()) {
-		cout << "Erro: arquivo não encontrado" << endl;
+		cout << "ERRO: arquivo não encontrado" << endl;
 		return -1;
 	}
 
 	program = fopen(filename,"r");
 	if (fopen == NULL) {
-		cout << "Erro: não foi possível ler o arquivo." << endl;
+		cout << "ERRO: não foi possível ler o arquivo." << endl;
 		return -1;
 	}
 	int tam = fread(buffer,sizeof(char),511999,program);
 	buffer[tam] = '\0';
 
-	// mapa das palavras reservadas
-	map<string,string> reservadas;
-		reservadas["ACENDA"]="ACENDA";
-		reservadas["LAMPADA"]="LAMPADA";
-		reservadas["APAGUE"]="APAGUE";
-		reservadas["LAMPADA"]="LAMPADA";
-		reservadas["AGUARDE"]="AGUARDE";
-		reservadas["ATE"]="ATE";
-		reservadas["COMO"]="COMO";
-		reservadas["DEFINAINSTRUCAO"]="DEFINAINSTRUCAO";
-		reservadas["DIREITA"]="DIREITA";
-		reservadas["ROBO"]="ROBO";
-		reservadas["BLOQUEADA"]="BLOQUEADA";
-		reservadas["ENQUANTO"]="ENQUANTO";
-		reservadas["ENTAO"]="ENTAO";
-		reservadas["ESQUERDA"]="ESQUERDA";
-		reservadas["EXECUCAOINICIO"]="EXECUCAOINICIO";
-		reservadas["FACA"]="FACA";
-		reservadas["FIM"]="FIM";
-		reservadas["FIMEXECUCAO"]="FIMEXECUCAO";
-		reservadas["FIMPARA"]="FIMPARA";
-		reservadas["FIMPROGRAMA"]="FIMPROGRAMA";
-		reservadas["FIMREPITA"]="FIMREPITA";
-		reservadas["FIMSE"]="FIMSE";
-		reservadas["FIMSENAO"]="FIMSENAO";
-		reservadas["FINALIZE"]="FINALIZE";
-		reservadas["FRENTE"]="FRENTE";
-		reservadas["INICIO"]="INICIO";
-		reservadas["ACESA"]="ACESA";
-		reservadas["A"]="A";
-		reservadas["APAGADA"]="APAGADA";
-		reservadas["MOVA"]="MOVA";
-		reservadas["PARE"]="PARE";
-		reservadas["PASSO"]="PASSO";
-		reservadas["PASSOS"]="PASSOS";
-		reservadas["PROGRAMAINICIO"]="PROGRAMAINICIO";
-		reservadas["REPITA"]="REPITA";
-		reservadas["MOVIMENTANDO"]="MOVIMENTANDO";
-		reservadas["OCUPADO"]="OCUPADO";
-		reservadas["PARADO"]="PARADO";
-		reservadas["PRONTO"]="PRONTO";
-		reservadas["SE"]="SE";
-		reservadas["SENAO"]="SENAO";
-		reservadas["VEZ"]="VEZ";
-		reservadas["VEZES"]="VEZES";
-		reservadas["VIRE"]="VIRE";
-		reservadas["PARA"]="PARA";
+	// análise léxica
 	cout << "Executando análise léxica... ";
-	vector<token> tokens = analisadorLexico(buffer,reservadas);
+	vector<token> tokens = analisadorLexico(buffer);
 
-	// if (!tokens.empty()) {
-	// 	for (int i = 0; i < tokens.size(); i++) {
-	// 		cout << tokens[i].texto << " " << tokens[i].tipo << endl;
-	// 	}
-	// }
-	// else if (erroLex == false) {
-	// 	cout << "Erro: arquivo não contém código." << endl;
-	// }
-	// cout << endl;
 	if (!tokens.empty())
 		cout << "OK." << endl;
-	else if (erroLex == false)
-		cout << "Erro: arquivo não contém código." << endl;
-
-	bool semErroSint = false;
-	if (!tokens.empty()) {
-		cout << "Executando análise sintática... ";
-		semErroSint = analisadorSintatico(tokens);
+	else {
+		if (erroLex == false)
+			cout << "ERRO: arquivo não contém código." << endl;
+		return -1;
 	}
 
-	if (semErroSint)
+	// análise sintática
+	cout << "Executando análise sintática... ";
+	erroSint = analisadorSintatico(tokens);
+	erroSint = !erroSint; // analisadorSintatico retorna "true" se não teve erros, entao trocamos o valor aqui
+
+	if (!erroSint)
 		cout << "OK." << endl;
+	else
+		return -1;
+
+	// análise semântica
+	cout << "Executando análise semântica... ";
+	vector<string> identificadores = analisadorSemantico(tokens);
+
+	if (!erroSem)
+		cout << "OK." << endl;
+	else
+		return -1;
 
     return 0;
 }
