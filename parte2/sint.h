@@ -256,9 +256,7 @@ bool analisadorSintatico(vector<token> tokens) {
  	string topPilha = pilha.top(); // topo da pila
 	do {
 		topPilha = pilha.top();
-		if (topPilha == "CONDICAO") {
-
-		}
+		
 		if (!simbolos.count(topPilha) || topPilha == "$") { // topo da pilha é um terminal ou $
 			if (topPilha == tokens[pos].tipo) {
 				pilha.pop();
