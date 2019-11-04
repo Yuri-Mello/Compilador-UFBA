@@ -24,22 +24,25 @@ VEZES, VIRE PARA.
 
 using namespace std;
 
-bool erro = false;
+bool erroLex = false;
 
 typedef struct token_t {
 	string tipo;
 	string texto;
+	int linha, coluna;
 }token;
 
-token novoToken(string tipo, string texto) {
+token novoToken(string tipo, string texto, int linha, int coluna) {
 	token novo;
 	novo.tipo = tipo;
 	novo.texto = texto;
+	novo.linha = linha;
+	novo.coluna = coluna;
 	return novo;
 }
 
 void erroLexico(int linha, int coluna) {
-	cout << "Erro: erro léxico na linha " << linha << ", coluna " << coluna << ".\n";
+	cout << "ERRO: erro léxico na linha " << linha << ", coluna " << coluna << ".\n";
 }
 
 vector<token> analisadorLexico(char buffer[], map<string,string> reservadas) {
@@ -51,7 +54,7 @@ vector<token> analisadorLexico(char buffer[], map<string,string> reservadas) {
 		switch(estado) {
 			// caso de erro
 			case -1:
-				erro = true;
+				erroLex = true;
 				while (buffer[i] != '\n' && buffer[i] != '\t' && buffer[i] != '\0' && buffer[i] != ' ') {
 					i++;
 					coluna++;
@@ -90,7 +93,7 @@ vector<token> analisadorLexico(char buffer[], map<string,string> reservadas) {
 					estado = 2;
 				}
 				else if (buffer[i] == '\0') {
-					if (erro == false){
+					if (erroLex == false){
 						return tokens;
 					}
 					else {
@@ -115,7 +118,7 @@ vector<token> analisadorLexico(char buffer[], map<string,string> reservadas) {
 					i++;
 				}
 				else if (buffer[i] == '\t' || buffer[i] == ' ' || buffer[i] == '\n' || buffer[i] == '\0') {
-					tokens.push_back(novoToken("NUM",texto));
+					tokens.push_back(novoToken("NUM",texto,linha,coluna));
 
 					estado = 0;
 				}
@@ -133,8 +136,8 @@ vector<token> analisadorLexico(char buffer[], map<string,string> reservadas) {
                     i++;
                 }            
                 else if (buffer[i] == '\t' || buffer[i] == ' ' || buffer[i] == '\n' || buffer[i] == '\0') {
-                    if(reservadas.count(texto)) tokens.push_back(novoToken(texto,texto));
-                    else tokens.push_back(novoToken("ID",texto));
+                    if(reservadas.count(texto)) tokens.push_back(novoToken(texto,texto,linha,coluna));
+                    else tokens.push_back(novoToken("ID",texto,linha,coluna));
 					
                     estado = 0;
                 }
