@@ -3,7 +3,6 @@
 #include <utility>
 #include <string>
 #include <stack>
-#include <iterator>
 
 using namespace std;
 
@@ -52,18 +51,6 @@ bool analisadorSintatico(vector<token> tokens) {
 	tabelaSint[{"DECLARACAO","DEFINAINSTRUCAO"}] = "DEFINAINSTRUCAO ID COMO COMANDO";
 
 	// -COMANDO-
-	tabelaSint[{"COMANDO","LAMPADA_ACESA_A_DIREITA"}] = "INSTRUCAO";
-	tabelaSint[{"COMANDO","LAMPADA_APAGADA_A_DIREITA"}] = "INSTRUCAO";
-	tabelaSint[{"COMANDO","LAMPADA_ACESA_A_ESQUERDA"}] = "INSTRUCAO";
-	tabelaSint[{"COMANDO","LAMPADA_APAGADA_A_ESQUERDA"}] = "INSTRUCAO";
-	tabelaSint[{"COMANDO","LAMPADA_ACESA_A_FRENTE"}] = "INSTRUCAO";
-	tabelaSint[{"COMANDO","LAMPADA_APAGADA_A_FRENTE"}] = "INSTRUCAO";
-	tabelaSint[{"COMANDO","DIREITA_ROBO_BLOQUEADA"}] = "INSTRUCAO";
-	tabelaSint[{"COMANDO","ESQUERDA_ROBO_BLOQUEADA"}] = "INSTRUCAO";
-	tabelaSint[{"COMANDO","FRENTE_ROBO_BLOQUEADA"}] = "INSTRUCAO";
-	tabelaSint[{"COMANDO","ROBO_MOVIMENTANDO"}] = "INSTRUCAO";
-	tabelaSint[{"COMANDO","ROBO_PARADO"}] = "INSTRUCAO";
-	tabelaSint[{"COMANDO","ROBO_PRONTO"}] = "INSTRUCAO";
 	tabelaSint[{"COMANDO","AGUARDE"}] = "INSTRUCAO";
 	tabelaSint[{"COMANDO","ACENDA"}] = "INSTRUCAO";
 	tabelaSint[{"COMANDO","APAGUE"}] = "INSTRUCAO";
@@ -78,18 +65,6 @@ bool analisadorSintatico(vector<token> tokens) {
 	tabelaSint[{"COMANDO","INICIO"}] = "BLOCO";
 
 	// -C-
-	tabelaSint[{"C","LAMPADA_ACESA_A_DIREITA"}] = "COMANDO C";
-	tabelaSint[{"C","LAMPADA_APAGADA_A_DIREITA"}] = "COMANDO C";
-	tabelaSint[{"C","LAMPADA_ACESA_A_ESQUERDA"}] = "COMANDO C";
-	tabelaSint[{"C","LAMPADA_APAGADA_A_ESQUERDA"}] = "COMANDO C";
-	tabelaSint[{"C","LAMPADA_ACESA_A_FRENTE"}] = "COMANDO C";
-	tabelaSint[{"C","LAMPADA_APAGADA_A_FRENTE"}] = "COMANDO C";
-	tabelaSint[{"C","DIREITA_ROBO_BLOQUEADA"}] = "COMANDO C";
-	tabelaSint[{"C","ESQUERDA_ROBO_BLOQUEADA"}] = "COMANDO C";
-	tabelaSint[{"C","FRENTE_ROBO_BLOQUEADA"}] = "COMANDO C";
-	tabelaSint[{"C","ROBO_MOVIMENTANDO"}] = "COMANDO C";
-	tabelaSint[{"C","ROBO_PARADO"}] = "COMANDO C";
-	tabelaSint[{"C","ROBO_PRONTO"}] = "COMANDO C";
 	tabelaSint[{"C","AGUARDE"}] = "COMANDO C";
 	tabelaSint[{"C","ACENDA"}] = "COMANDO C";
 	tabelaSint[{"C","APAGUE"}] = "COMANDO C";
@@ -108,7 +83,7 @@ bool analisadorSintatico(vector<token> tokens) {
 	tabelaSint[{"BLOCO","INICIO"}] = "INICIO C FIM";
 
 	// -ITERACAO-
-	tabelaSint[{"ITERAÇÃO","REPITA"}] = "REPITA NUM VEZES COMANDO FIMREPITA" ;  
+	tabelaSint[{"ITERACAO","REPITA"}] = "REPITA NUM VEZES COMANDO FIMREPITA" ;  
 
 	// -LACO-
 	tabelaSint[{"LACO","ENQUANTO"}] = "ENQUANTO CONDICAO FACA COMANDO FIMPARA";
@@ -117,18 +92,6 @@ bool analisadorSintatico(vector<token> tokens) {
 	tabelaSint[{"CONDICAO","SE"}] = "SE CONDICAO ENTAO COMANDO FIMSE ELSE";
 
 	// -ELSE-
-	tabelaSint[{"ELSE","LAMPADA_ACESA_A_DIREITA"}] = "&";
-	tabelaSint[{"ELSE","LAMPADA_APAGADA_A_DIREITA"}] = "&";
-	tabelaSint[{"ELSE","LAMPADA_ACESA_A_ESQUERDA"}] = "&";
-	tabelaSint[{"ELSE","LAMPADA_APAGADA_A_ESQUERDA"}] = "&";
-	tabelaSint[{"ELSE","LAMPADA_ACESA_A_FRENTE"}] = "&";
-	tabelaSint[{"ELSE","LAMPADA_APAGADA_A_FRENTE"}] = "&";
-	tabelaSint[{"ELSE","DIREITA_ROBO_BLOQUEADA"}] = "&";
-	tabelaSint[{"ELSE","ESQUERDA_ROBO_BLOQUEADA"}] = "&";
-	tabelaSint[{"ELSE","FRENTE_ROBO_BLOQUEADA"}] = "&";
-	tabelaSint[{"ELSE","ROBO_MOVIMENTANDO"}] = "&";
-	tabelaSint[{"ELSE","ROBO_PARADO"}] = "&";
-	tabelaSint[{"ELSE","ROBO_PRONTO"}] = "&";
 	tabelaSint[{"ELSE","AGUARDE"}] = "&";
 	tabelaSint[{"ELSE","ACENDA"}] = "&";
 	tabelaSint[{"ELSE","APAGUE"}] = "&";
@@ -153,63 +116,40 @@ bool analisadorSintatico(vector<token> tokens) {
 	tabelaSint[{"ELSE","EXECUCAOINICIO"}] = "&";
 
 	// -INSTRUCAO-
-	tabelaSint[{"INSTRUCAO","LAMPADA_ACESA_A_DIREITA"}] = "CONDICAO";
-	tabelaSint[{"INSTRUCAO","LAMPADA_APAGADA_A_DIREITA"}] = "CONDICAO";
-	tabelaSint[{"INSTRUCAO","LAMPADA_ACESA_A_ESQUERDA"}] = "CONDICAO";
-	tabelaSint[{"INSTRUCAO","LAMPADA_APAGADA_A_ESQUERDA"}] = "&";
-	tabelaSint[{"INSTRUCAO","LAMPADA_ACESA_A_FRENTE"}] = "CONDICAO";
-	tabelaSint[{"INSTRUCAO","LAMPADA_APAGADA_A_FRENTE"}] = "CONDICAO";
-	tabelaSint[{"INSTRUCAO","DIREITA_ROBO_BLOQUEADA"}] = "CONDICAO";
-	tabelaSint[{"INSTRUCAO","ESQUERDA_ROBO_BLOQUEADA"}] = "CONDICAO";
-	tabelaSint[{"INSTRUCAO","FRENTE_ROBO_BLOQUEADA"}] = "CONDICAO";
-	tabelaSint[{"INSTRUCAO","ROBO_MOVIMENTANDO"}] = "CONDICAO";
-	tabelaSint[{"INSTRUCAO","ROBO_PARADO"}] = "CONDICAO";
-	tabelaSint[{"INSTRUCAO","ROBO_PRONTO"}] = "CONDICAO";
-	tabelaSint[{"INSTRUCAO","AGUARDE"}] = "AGUARDE ATE";
+	tabelaSint[{"INSTRUCAO","AGUARDE"}] = "AGUARDE ATE CONDICAO";
 	tabelaSint[{"INSTRUCAO","ACENDA"}] = "ACENDA LAMPADA";
 	tabelaSint[{"INSTRUCAO","APAGUE"}] = "APAGUE LAMPADA";
 	tabelaSint[{"INSTRUCAO","FINALIZE"}] = "FINALIZE";
 	tabelaSint[{"INSTRUCAO","PARE"}] = "PARE";
 	tabelaSint[{"INSTRUCAO","ID"}] = "ID";
 	tabelaSint[{"INSTRUCAO","VIRE"}] = "VIRE PARA SENTIDO";
-	tabelaSint[{"INSTRUCAO","MOVA"}] = "MOVA NUM PASSOS";
+	tabelaSint[{"INSTRUCAO","MOVA"}] = "MOVA NUM PASSOS-";
 
-	// -PASSOS-
-	tabelaSint[{"PASSOS","LAMPADA_ACESA_A_DIREITA"}] = "&";
-	tabelaSint[{"PASSOS","LAMPADA_APAGADA_A_DIREITA"}] = "&";
-	tabelaSint[{"PASSOS","LAMPADA_ACESA_A_ESQUERDA"}] = "&";
-	tabelaSint[{"PASSOS","LAMPADA_APAGADA_A_ESQUERDA"}] = "&";
-	tabelaSint[{"PASSOS","LAMPADA_ACESA_A_FRENTE"}] = "&";
-	tabelaSint[{"PASSOS","LAMPADA_APAGADA_A_FRENTE"}] = "&";
-	tabelaSint[{"PASSOS","DIREITA_ROBO_BLOQUEADA"}] = "&";
-	tabelaSint[{"PASSOS","ESQUERDA_ROBO_BLOQUEADA"}] = "&";
-	tabelaSint[{"PASSOS","FRENTE_ROBO_BLOQUEADA"}] = "&";
-	tabelaSint[{"PASSOS","ROBO_MOVIMENTANDO"}] = "&";
-	tabelaSint[{"PASSOS","ROBO_PARADO"}] = "&";
-	tabelaSint[{"PASSOS","ROBO_PRONTO"}] = "&";
-	tabelaSint[{"PASSOS","PASSOS"}] = "PASSOS";
-	tabelaSint[{"PASSOS","AGUARDE"}] = "&";
-	tabelaSint[{"PASSOS","ACENDA"}] = "&";
-	tabelaSint[{"PASSOS","APAGUE"}] = "&";
-	tabelaSint[{"PASSOS","FINALIZE"}] = "&";
-	tabelaSint[{"PASSOS","PARE"}] = "&";
-	tabelaSint[{"PASSOS","ID"}] = "&";
-	tabelaSint[{"PASSOS","VIRE"}] = "&";
-	tabelaSint[{"PASSOS","MOVA"}] = "&";
-	tabelaSint[{"PASSOS","MOVA"}] = "&";
-	tabelaSint[{"PASSOS","FIMSENAO"}] = "&";
-	tabelaSint[{"PASSOS","FIMSE"}] = "&";
-	tabelaSint[{"PASSOS","SE"}] = "&";
-	tabelaSint[{"PASSOS","FIMPARA"}] = "&";
-	tabelaSint[{"PASSOS","ENQUANTO"}] = "&";
-	tabelaSint[{"PASSOS","ENQUANTO"}] = "&";
-	tabelaSint[{"PASSOS","FIMREPITA"}] = "&";
-	tabelaSint[{"PASSOS","REPITA"}] = "&";
-	tabelaSint[{"PASSOS","FIM"}] = "&";
-	tabelaSint[{"PASSOS","INICIO"}] = "&";
-	tabelaSint[{"PASSOS","DEFINAINSTRUCAO"}] = "&";
-	tabelaSint[{"PASSOS","FIMEXECUCAO"}] = "&";
-	tabelaSint[{"PASSOS","EXECUCAOINICIO"}] = "&";
+	// -PASSOS-- (adicionei o '-' pois estava em conflito com a palavra reservada "PASSOS")
+	tabelaSint[{"PASSOS-","PASSOS"}] = "PASSOS";
+	tabelaSint[{"PASSOS-","PASSO"}] = "PASSO";
+	tabelaSint[{"PASSOS-","AGUARDE"}] = "&";
+	tabelaSint[{"PASSOS-","ACENDA"}] = "&";
+	tabelaSint[{"PASSOS-","APAGUE"}] = "&";
+	tabelaSint[{"PASSOS-","FINALIZE"}] = "&";
+	tabelaSint[{"PASSOS-","PARE"}] = "&";
+	tabelaSint[{"PASSOS-","ID"}] = "&";
+	tabelaSint[{"PASSOS-","VIRE"}] = "&";
+	tabelaSint[{"PASSOS-","MOVA"}] = "&";
+	tabelaSint[{"PASSOS-","MOVA"}] = "&";
+	tabelaSint[{"PASSOS-","FIMSENAO"}] = "&";
+	tabelaSint[{"PASSOS-","FIMSE"}] = "&";
+	tabelaSint[{"PASSOS-","SE"}] = "&";
+	tabelaSint[{"PASSOS-","FIMPARA"}] = "&";
+	tabelaSint[{"PASSOS-","ENQUANTO"}] = "&";
+	tabelaSint[{"PASSOS-","ENQUANTO"}] = "&";
+	tabelaSint[{"PASSOS-","FIMREPITA"}] = "&";
+	tabelaSint[{"PASSOS-","REPITA"}] = "&";
+	tabelaSint[{"PASSOS-","FIM"}] = "&";
+	tabelaSint[{"PASSOS-","INICIO"}] = "&";
+	tabelaSint[{"PASSOS-","DEFINAINSTRUCAO"}] = "&";
+	tabelaSint[{"PASSOS-","FIMEXECUCAO"}] = "&";
+	tabelaSint[{"PASSOS-","EXECUCAOINICIO"}] = "&";
 
 	// -CONDICAO-
 	tabelaSint[{"CONDICAO","LAMPADA_ACESA_A_DIREITA"}] = "LAMPADA_ACESA_A_DIREITA";
@@ -242,7 +182,7 @@ bool analisadorSintatico(vector<token> tokens) {
 		simbolos["CONDICIONAL"] = "CONDICIONAL";
 		simbolos["ELSE"] = "ELSE";
 		simbolos["INSTRUCAO"] = "INSTRUCAO";
-		simbolos["PASSOS"] = "PASSOS";
+		simbolos["PASSOS-"] = "PASSOS-";
 		simbolos["CONDICAO"] = "CODICAO";
 		simbolos["SENTIDO"] = "SENTIDO";
 
@@ -263,7 +203,7 @@ bool analisadorSintatico(vector<token> tokens) {
 				pos++;
 			}
 			else {
-				erroSintatico(tokens[pos].linha,tokens[pos].coluna,tokens[pos].tipo);
+				erroSintatico(tokens[pos].linha,tokens[pos].coluna,topPilha);
 				return false;
 			}
 		}
@@ -274,7 +214,7 @@ bool analisadorSintatico(vector<token> tokens) {
 				pilha = addInstToStack(pilha,inst);
 			}
 			else {
-				erroSintatico(tokens[pos].linha,tokens[pos].coluna,tokens[pos].tipo);
+				erroSintatico(tokens[pos].linha,tokens[pos].coluna,topPilha);
 				return false;
 			}
 		}
