@@ -61,7 +61,7 @@ int main() {
 
 	cout << "Gerando código... ";
 	ofstream saida;
-	saida.open("teste.asm");
+	saida.open("saida.asm");
 	saida << gerarCodigo(tokens);
 	saida.close();
 	cout << "OK." << endl;
