@@ -94,7 +94,8 @@ string comando(vector<token> tokens) {
 		codigo += "cmp bl, 0\n";
 		codigo += "je " + fim + "\n";
 		codigo += "call aguarde_ate_pronto\n";
-		codigo += "call mover_frente\n";
+		codigo += "mov al, 1\n";
+		codigo += "out 9, al\n";
 		codigo += "sub bl, 1\n";
 		codigo += "jmp " + comeco + "\n";
 		codigo += fim + ":\n";
@@ -104,17 +105,23 @@ string comando(vector<token> tokens) {
 	}
 	else if (tokens[pos].tipo == "VIRE") {
 		pos += 2;
-		if (tokens[pos].tipo == "ESQUERDA")
-			codigo += "\ncall virar_esquerda\n";
-		else if (tokens[pos].tipo == "DIREITA")
-			codigo += "\ncall virar_direita\n";
+		if (tokens[pos].tipo == "ESQUERDA") {
+			codigo += "mov al, 2\n";
+			codigo += "out 9, al\n";
+		}
+		else if (tokens[pos].tipo == "DIREITA") {
+			codigo += "mov al, 3\n";
+			codigo += "out 9, al\n";
+		}
 	}
 	else if (tokens[pos].tipo == "ACENDA") {
-		codigo += "\ncall acender_lampada\n";
+		codigo += "mov al, 5\n";
+		codigo += "out 9, al\n";
 		pos++;
 	}
 	else if (tokens[pos].tipo == "APAGUE") {
-		codigo += "\ncall apagar_lampada\n";
+		codigo += "mov al, 6\n";
+		codigo += "out 9, al\n";
 		pos++;
 	}
 	else if (tokens[pos].tipo == "REPITA") {
@@ -285,7 +292,9 @@ string gerarCodigo(vector<token> tokens) {
 		pos++;
 	}
 
-	codigo += "\nret\n";
+	codigo += "\nmov ah, 4ch\n";
+	codigo += "mov al, 0\n";
+	codigo += "int 21h\n";
 
 	return codigo;
 }
