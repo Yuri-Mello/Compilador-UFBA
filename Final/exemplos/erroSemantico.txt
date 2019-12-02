@@ -1,0 +1,31 @@
+#Erro Semantico
+
+PROGRAMAINICIO
+	DEFINAINSTRUCAO ConjuntoInstrucoes COMO
+	INICIO
+		Mova 3 Passos
+		Aguarde Ate Lampada Apagada A Frente
+		Vire Para ESQUERDA
+		Apague Lampada
+		Vire Para DIREITA
+		Mova 1 Passo
+		Aguarde Ate Robo Pronto
+	FIM
+	DEFINAINSTRUCAO Funcao COMO
+	INICIO
+		Mova 3 Passos
+		Aguarde Ate Robo Pronto
+		Vire Para ESQUERDA
+		Mova 1 Passo
+		Aguarde Ate Robo Pronto
+	FIM
+	EXECUCAOINICIO
+	INICIO
+		ConjuntoInstrucoes
+		Repita 2 VEZES Funcao FIMREPITA
+		Mova 2 Passos
+		Aguarde Ate Robo Pronto
+		Vire Para ESQUERDA
+	FIM
+	FIMEXECUCAO
+FIMPROGRAMA
